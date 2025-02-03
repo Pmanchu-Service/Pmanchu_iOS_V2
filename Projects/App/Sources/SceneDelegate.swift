@@ -4,9 +4,16 @@ import Swinject
 import RxFlow
 import Core
 import Flow
+import Data
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        if let url = URLContexts.first?.url {
+            let code = url.absoluteString.components(separatedBy: "code=").last ?? ""
+            LoginManager.shared.requestAccessToken(with: code)
+        }
+    }
     private var coordinator = FlowCoordinator()
 
     func scene(
